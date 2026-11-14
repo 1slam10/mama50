@@ -8,7 +8,7 @@ window.INVITE = {
   /* --- Мерейтой иесі (the hero of the day) --- */
   mom: {
     name: "Мира",                      // shown big on the cover, used in titles ("Мираның …")
-    photo: "img/mom-flowers.jpeg",              // main photo (portrait, ~1200px tall is plenty)
+    photo: "img/photos/mom-flowers.jpeg",              // main photo (portrait, ~1200px tall is plenty)
     age: 50
   },
 
