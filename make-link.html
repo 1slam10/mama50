@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Шақыру сілтемесін жасау</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { overflow: auto; }
+    .tool { width: min(100% - 32px, 520px); margin: 0 auto; padding: 48px 0 80px; text-align: center; }
+    .tool .title { margin-top: 10px; }
+    .hint { margin: 6px 0 26px; font-size: 18px; color: var(--ink-soft); }
+    .fields { display: grid; gap: 12px; text-align: left; }
+    label { display: grid; gap: 6px; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-text); }
+    input[type=text] {
+      width: 100%; min-height: 50px; padding: 0 16px;
+      border: 1px solid var(--gold-soft); border-radius: 14px; background: var(--paper);
+      font-family: var(--serif); font-size: 21px; font-style: italic; color: var(--ink);
+      letter-spacing: 0; text-transform: none;
+    }
+    input[type=text]:focus { outline: 2px solid var(--sky-600); outline-offset: 1px; }
+    .check { display: flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 4px; font-family: var(--serif); font-size: 18px; letter-spacing: 0; text-transform: none; color: var(--ink); }
+    .check input { width: 20px; height: 20px; accent-color: var(--sky-600); }
+    .preview { margin: 28px 0 0; padding: 26px 20px; border: 1px solid var(--gold-soft); border-radius: 160px 160px 18px 18px; background: rgba(255,253,250,.8); }
+    .preview .names { margin-bottom: 10px; }
+    .preview .soft { margin-top: 8px; font-size: 17px; }
+    .out { margin-top: 22px; display: grid; gap: 10px; }
+    .url { width: 100%; padding: 14px 16px; border: 1px dashed var(--gold); border-radius: 12px; background: #fff; font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: var(--ink); word-break: break-all; text-align: left; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .row .btn { padding: 0 14px; }
+    .note { margin-top: 18px; font-size: 16px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+<main class="tool">
+  <p class="eyebrow">Той иелеріне</p>
+  <h1 class="title">Шақыру сілтемесін жасау</h1>
+  <p class="hint">1–5 есім жазыңыз (апай, аға, т.б. қоса). Сілтеме дайын болады.</p>
+
+  <div class="fields" id="fields">
+    <label>1-есім<input type="text" maxlength="48" placeholder="Айгүл апай" autocomplete="off"></label>
+    <label>2-есім<input type="text" maxlength="48" placeholder="Бауыржан аға" autocomplete="off"></label>
+    <label>3-есім<input type="text" maxlength="48" autocomplete="off"></label>
+    <label>4-есім<input type="text" maxlength="48" autocomplete="off"></label>
+    <label>5-есім<input type="text" maxlength="48" autocomplete="off"></label>
+    <label class="check"><input type="checkbox" id="plural"> Бір есім, бірақ отбасына / әулетке (Сіздерді)</label>
+  </div>
+
+  <div class="preview">
+    <p class="dear">Қымбатты</p>
+    <div class="names" id="pvNames" data-count="0"><span class="names__line">туыстарым мен достарым</span></div>
+    <p class="soft" id="pvForm">Сіздерді … шақырамын!</p>
+  </div>
+
+  <div class="out">
+    <div class="url" id="url"></div>
+    <div class="row">
+      <button class="btn btn--ghost" id="copy" type="button">Көшіру</button>
+      <a class="btn btn--ghost" id="openLink" href="#" target="_blank" rel="noopener">Ашып көру</a>
+    </div>
+    <a class="btn btn--primary" id="wa" href="#" target="_blank" rel="noopener">WhatsApp-пен жіберу</a>
+  </div>
+  <p class="note">Есімдер сілтемеде кодталған түрде тұрады (?i=…), сондықтан бірден көзге түспейді.</p>
+</main>
+
+<script src="js/config.js"></script>
+<script>
+(function () {
+  "use strict";
+  var inputs = Array.prototype.slice.call(document.querySelectorAll("#fields input[type=text]"));
+  var plural = document.getElementById("plural");
+  var base = location.href.replace(/[?#].*$/, "").replace(/make-link(\.html)?$/, "");
+
+  function conjAfter(word) {
+    var w = String(word).toLowerCase().replace(/[^a-zа-яёәғқңөұүһі]/g, "").replace(/[ьъ]+$/, "");
+    var last = w.slice(-1);
+    if (!last || /[a-z]/.test(last)) return "және";
+    if ("аәеёиоөұүыіэюяулрймнң".indexOf(last) > -1) return "мен";
+    if ("жз".indexOf(last) > -1) return "бен";
+    return "пен";
+  }
+  function genitive(w) {
+    var low = w.toLowerCase(), last = low.slice(-1);
+    var vs = low.replace(/[^аәеёиоөұүыіэюяу]/g, ""), front = /[әеөүіэи]/.test(vs.slice(-1));
+    var suf = /[аәеёоөұүыіэюямнң]/.test(last) ? (front ? "нің" : "ның")
+            : /[лрйузжи]/.test(last) ? (front ? "дің" : "дың") : (front ? "тің" : "тың");
+    return w + suf;
+  }
+  function plain(a) {
+    if (a.length === 1) return a[0];
+    if (a.length === 2) return a[0] + " " + conjAfter(a[0]) + " " + a[1];
+    return a.slice(0, -1).join(", ") + " және " + a[a.length - 1];
+  }
+  function b64url(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    bytes.forEach(function (b) { bin += String.fromCharCode(b); });
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function update() {
+    var names = inputs.map(function (i) { return i.value.replace(/[|<>]/g, "").replace(/\s+/g, " ").trim(); }).filter(Boolean);
+    var P = plural.checked || names.length !== 1 || /(отбасы|әулеті|жанұясы)/i.test(names.join(" "));
+    var box = document.getElementById("pvNames");
+    box.textContent = ""; box.setAttribute("data-count", names.length);
+    var add = function (t, c) { var s = document.createElement("span"); s.className = c || "names__line"; s.textContent = t; box.appendChild(s); };
+    if (!names.length) add("туыстарым мен достарым");
+    else if (names.length === 1) add(names[0]);
+    else if (names.length === 2) { add(names[0]); add(conjAfter(names[0]), "names__and"); add(names[1]); }
+    else names.forEach(function (nm, i) {
+      if (i < names.length - 2) add(nm + ",");
+      else if (i === names.length - 2) { add(nm); add("және", "names__and"); }
+      else add(nm);
+    });
+    document.getElementById("pvForm").textContent = (P ? "Сіздерді" : "Сізді") + " … шақырамын!"
+
+    var url = names.length ? base + "?i=" + b64url((plural.checked ? "*" : "") + names.join("|")) : base;
+    document.getElementById("url").textContent = url;
+    document.getElementById("openLink").href = url;
+    var mom = (window.INVITE && INVITE.mom && INVITE.mom.name) || "";
+    var age = (window.INVITE && INVITE.mom && INVITE.mom.age) || 50;
+    var title = (mom ? genitive(mom) + " " : "") + age + " жасқа толу мерекесіне шақыру";
+    title = title.charAt(0).toUpperCase() + title.slice(1);
+    var msg = (names.length ? "Қымбатты " + plain(names) + "! " : "") + title + ":\n" + url;
+    document.getElementById("wa").href = "https://wa.me/?text=" + encodeURIComponent(msg);
+  }
+  inputs.concat(plural).forEach(function (el) { el.addEventListener("input", update); });
+  document.getElementById("copy").addEventListener("click", function (e) {
+    var btn = e.currentTarget, text = document.getElementById("url").textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () {
+      btn.textContent = "Көшірілді";
+      setTimeout(function () { btn.textContent = "Көшіру"; }, 1600);
+    }).catch(function () { prompt("Сілтемені көшіріңіз:", text); });
+  });
+  update();
+})();
+</script>
+</body>
+</html>

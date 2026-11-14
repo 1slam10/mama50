@@ -1,0 +1,21 @@
+{
+  "siteUrl": "https://toi.islamadilkhan.me",
+  "shareLine": "27 қараша, жұма, 20:00 · «Жеті тандыр» мейрамханасы",
+  "guests": [
+    { "slug": "amidolla-akbobek",       "names": ["Әмидолла", "Ақбөбек"] },
+    { "slug": "azidolla-madina-botik",  "names": ["Әзидолла", "Мадина"], "kids": ["Ботик"] },
+    { "slug": "kairat-gulbarshyn-safiya", "names": ["Қайрат", "Гүлбаршын"], "kids": ["Сафия"] },
+    { "slug": "zhailan-kuralai",        "names": ["Жайлан әже", "Құралай"] },
+    { "slug": "maksut-laura-kamilla",   "names": ["Максут", "Лаура"], "kids": ["Камилла"] },
+    { "slug": "anuar-alina-ailin",      "names": ["Ануар", "Алина"], "kids": ["Айлин"] },
+    { "slug": "zhandos-botash",         "names": ["Жандос", "Боташ"], "kids": ["Муслим", "Абдурахим", "Ибраһим", "Маруа"] },
+    { "slug": "azat-aizhan",            "names": ["Азат", "Айжан"] },
+    { "slug": "alma",                   "names": ["Алма тәте"] },
+    { "slug": "ulzhan",                 "names": ["Ұлжан"] },
+    { "slug": "nurgul",                 "names": ["Нұргүл"] },
+    { "slug": "lazzat",                 "names": ["Ләззәт"] },
+    { "slug": "aizhan-ruslan-zhumagul", "names": ["Айжан апа", "Руслан", "Жұмагүл"] },
+    { "slug": "ainur-aidar",            "names": ["Айнұр", "Айдар"] },
+    { "slug": "gulzhan",                "names": ["Гүлжан құдаша"] }
+  ]
+}
