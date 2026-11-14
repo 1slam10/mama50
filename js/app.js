@@ -252,9 +252,14 @@
   /* ----------------------------------------------------------
      Photos (placeholder until the file exists)
      ---------------------------------------------------------- */
+  // build_guests.py writes a hash of img/ + audio/ here, so replaced photos are never served stale
+  var ASSET_V = (document.querySelector('meta[name="asset-v"]') || {}).content || "";
+  function withV(src) { return ASSET_V && src ? src + (src.indexOf("?") > -1 ? "&" : "?") + "v=" + ASSET_V : src; }
+
   function setPhoto(img, src) {
     var frame = img.parentNode;
     if (!src) { frame.classList.add("is-missing"); return; }
+    src = withV(src);
     img.addEventListener("error", function () { frame.classList.add("is-missing"); });
     img.addEventListener("load", function () { frame.classList.remove("is-missing"); });
     img.src = src;
@@ -361,7 +366,7 @@
      ---------------------------------------------------------- */
   var audio = $("#music"), musicBtn = $("#musicBtn"), musicReady = false;
   function setupMusic() {
-    var src = C.music && C.music.src;
+    var src = withV(C.music && C.music.src);
     if (!src) return;
     var show = function () { musicReady = true; musicBtn.hidden = false; };
     audio.src = src;

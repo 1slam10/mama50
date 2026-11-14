@@ -12,6 +12,7 @@ Writes <slug>.html for every guest + guest-links.md (links and ready WhatsApp te
 
 Only the Python standard library is needed.
 """
+import hashlib
 import html
 import json
 import re
@@ -97,6 +98,23 @@ def set_meta(page, attr, key, value):
     return page.replace("</title>", "</title>\n  " + tag, 1)
 
 
+def short_hash(paths):
+    h = hashlib.sha1()
+    for p in paths:
+        h.update(p.name.encode())
+        h.update(p.read_bytes())
+    return h.hexdigest()[:8]
+
+
+def stamp_versions(page):
+    """Cache-busting: every push gets new asset URLs, so CDN caches (Cloudflare) can't serve stale files."""
+    for rel in ["css/fonts.css", "css/style.css", "js/config.js", "js/app.js"]:
+        page = re.sub(rf'"{re.escape(rel)}(\?v=[0-9a-f]+)?"', f'"{rel}?v={short_hash([ROOT / rel])}"', page)
+    media = sorted(p for d in ("img", "audio") for p in (ROOT / d).rglob("*")
+                   if p.is_file() and not p.name.startswith(".") and "og" not in p.relative_to(ROOT).parts[1:2])
+    return set_meta(page, "name", "asset-v", short_hash(media))
+
+
 def set_share_tags(page, title, description, url, image, alt):
     """Everything WhatsApp / Telegram / iMessage read to draw the preview card."""
     for attr, key, val in [
@@ -122,6 +140,7 @@ def main():
     # root page (generic invitation): absolute URLs, WhatsApp needs them
     root_page = set_share_tags(template, invite_title[0].upper() + invite_title[1:], share_line,
                                f"{site}/", f"{site}/img/og.jpg", invite_title)
+    root_page = stamp_versions(root_page)
     if root_page != template:
         template_path.write_text(root_page, encoding="utf-8")
         template = root_page
@@ -154,8 +173,8 @@ def main():
         page = set_share_tags(page, f"Қымбатты {everyone}!", f"{invite_title} · {share_line}".strip(" ·"),
                               url, f"{site}/{card}", f"Қымбатты {everyone}! {invite_title}")
         guest_js = json.dumps({"names": names, "kids": kids, "plural": plural}, ensure_ascii=False)
-        page = page.replace('<script src="js/config.js" defer></script>',
-                            f'<script>window.GUEST = {guest_js};</script>\n  <script src="js/config.js" defer></script>', 1)
+        page = re.sub(r'(<script src="js/config\.js[^"]*" defer></script>)',
+                      lambda m: f'<script>window.GUEST = {guest_js};</script>\n  ' + m.group(1), page, count=1)
         (ROOT / f"{slug}.html").write_text(page, encoding="utf-8")
 
         msg = f"Қымбатты {everyone}! {invite_title[0].upper() + invite_title[1:]}: {share_line}.\n{url}"

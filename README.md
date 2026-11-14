@@ -16,7 +16,7 @@ css/ js/ img/ fonts/ audio/
 ## Everyday workflow
 1. Edit `guests.json` (families) or `js/config.js` (date, place, photos…).
 2. Optional, only when names change: `node og-cards.js` makes the personal preview images in `img/og/`. It needs `npm i -D playwright && npx playwright install chromium` once. Without it, a page falls back to the generic `img/og.jpg`.
-3. `python3 build_guests.py` writes the 15 `<slug>.html` pages and `guest-links.md` (every link plus a one-tap WhatsApp text).
+3. `python3 build_guests.py` writes the 15 `<slug>.html` pages and `guest-links.md` (every link plus a one-tap WhatsApp text). **Run it before every push**, even for a photo or config change: it stamps `?v=<hash>` on CSS/JS/photo URLs so Cloudflare or browser caches never serve stale files.
 4. `git add . && git commit -m "update" && git push`. Pages redeploys in about a minute.
 
 Don't edit the generated `<slug>.html` files by hand: they are rebuilt from `index.html`. Removing a family from `guests.json` deletes its page on the next build.
