@@ -25,8 +25,8 @@ window.INVITE = {
     dressCode: ""                          // optional, e.g. "Ақ немесе пастель түстер". "" to hide
   },
 
-  /* --- Signature under «Шын жүректен,» --- */
-  hosts: "Мира",
+  /* --- Той иелері (hosts, shown at the bottom) --- */
+  hosts: "Мира мен Ислам",
 
   /* --- WhatsApp RSVP --- */
   rsvp: {
@@ -42,12 +42,12 @@ window.INVITE = {
 
   /* --- Естелік беттері: photo timeline (any number of slides; year is optional) --- */
   timeline: [
-    { photo: "img/photos/01.jpg", year: "", caption: "Балалық шағым" },
-    { photo: "img/photos/02.jpg", year: "", caption: "Студенттік жылдарым" },
-    { photo: "img/photos/03.jpg", year: "", caption: "Шаңырақ көтерген күн" },
-    { photo: "img/photos/04.jpg", year: "", caption: "Ана болған бақытым" },
-    { photo: "img/photos/05.jpg", year: "", caption: "Отбасымның ортасында" },
-    { photo: "img/photos/06.jpg", year: "2026", caption: "Бүгін — 50!" }
+    { photo: "img/photos/photo-1.jpg", year: "", caption: "" },
+    { photo: "img/photos/photo-2.jpg", year: "", caption: "" },
+    { photo: "img/photos/photo-3.jpg", year: "", caption: "" },
+    { photo: "img/photos/photo-4.jpg", year: "", caption: "" },
+    { photo: "img/photos/photo-5.jpg", year: "", caption: "" },
+    { photo: "img/photos/photo-6.jpg", year: "2026", caption: "" }
   ],
 
   /* --- Guests with short links:  https://<site>/?g=aigul ---

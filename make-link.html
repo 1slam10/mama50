@@ -52,8 +52,8 @@
 
   <div class="preview">
     <p class="dear">Қымбатты</p>
-    <div class="names" id="pvNames" data-count="0"><span class="names__line">туыстарым мен достарым</span></div>
-    <p class="soft" id="pvForm">Сіздерді … шақырамын!</p>
+    <div class="names" id="pvNames" data-count="0"><span class="names__line">туыстарымыз бен достарымыз</span></div>
+    <p class="soft" id="pvForm">Сіздерді … шақырамыз!</p>
   </div>
 
   <div class="out">
@@ -106,7 +106,7 @@
     var box = document.getElementById("pvNames");
     box.textContent = ""; box.setAttribute("data-count", names.length);
     var add = function (t, c) { var s = document.createElement("span"); s.className = c || "names__line"; s.textContent = t; box.appendChild(s); };
-    if (!names.length) add("туыстарым мен достарым");
+    if (!names.length) add("туыстарымыз бен достарымыз");
     else if (names.length === 1) add(names[0]);
     else if (names.length === 2) { add(names[0]); add(conjAfter(names[0]), "names__and"); add(names[1]); }
     else names.forEach(function (nm, i) {
@@ -114,7 +114,7 @@
       else if (i === names.length - 2) { add(nm); add("және", "names__and"); }
       else add(nm);
     });
-    document.getElementById("pvForm").textContent = (P ? "Сіздерді" : "Сізді") + " … шақырамын!"
+    document.getElementById("pvForm").textContent = (P ? "Сіздерді" : "Сізді") + " … шақырамыз!"
 
     var url = names.length ? base + "?i=" + b64url((plural.checked ? "*" : "") + names.join("|")) : base;
     document.getElementById("url").textContent = url;

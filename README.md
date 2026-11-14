@@ -28,7 +28,7 @@ Don't edit the generated `<slug>.html` files by hand: they are rebuilt from `ind
 - iPhone HEIC → JPG and resize: `sips -s format jpeg in.HEIC --out img/mom.jpg && sips -Z 1600 img/mom.jpg`
 
 ## Grammar & wording
-- The page speaks in Mira's own voice: «шақырамын», «асыға күтемін».
+- The hosts (той иелері: Мира мен Ислам, `hosts` in `config.js`) speak together as «біз»: «шақырамыз», «асыға күтеміз».
 - One person gets *Сізді / Келемін*; a couple or family gets *Сіздерді / Келеміз*.
 - Two names are joined with *мен / пен / бен* depending on the last letter; three or more use commas + *және*.
 - `kids` show smaller under a gold line. WhatsApp replies and page titles use the lead names.

@@ -59,7 +59,7 @@ function cardHtml(g) {
   const plural = !g || g.plural || g.names.length + (g.kids || []).length !== 1;
   const middle = g
     ? `<p class="dear">Қымбатты</p><p class="names" id="names">${esc(lead)}${kids ? "" : "!"}</p>${kids ? `<p class="kids">${esc(kids)}!</p>` : ""}`
-    : `<p class="await">${plural ? "Сіздерді" : "Сізді"} асыға күтемін!</p>`;
+    : `<p class="await">${plural ? "Сіздерді" : "Сізді"} асыға күтеміз!</p>`;
   return `<!doctype html><html lang="kk"><head><meta charset="utf-8"><style>
 ${fontsCss}
 *{box-sizing:border-box;margin:0}
