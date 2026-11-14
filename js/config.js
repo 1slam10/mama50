@@ -8,7 +8,7 @@ window.INVITE = {
   /* --- Мерейтой иесі (the hero of the day) --- */
   mom: {
     name: "Мира",                      // shown big on the cover, used in titles ("Мираның …")
-    photo: "img/mom.jpg",              // main photo (portrait, ~1200px tall is plenty)
+    photo: "img/mom-flowers.jpeg",              // main photo (portrait, ~1200px tall is plenty)
     age: 50
   },
 
@@ -42,12 +42,12 @@ window.INVITE = {
 
   /* --- Естелік беттері: photo timeline (any number of slides; year is optional) --- */
   timeline: [
-    { photo: "img/photos/photo-1.jpg", year: "", caption: "" },
-    { photo: "img/photos/photo-2.jpg", year: "", caption: "" },
-    { photo: "img/photos/photo-3.jpg", year: "", caption: "" },
-    { photo: "img/photos/photo-4.jpg", year: "", caption: "" },
-    { photo: "img/photos/photo-5.jpg", year: "", caption: "" },
-    { photo: "img/photos/photo-6.jpg", year: "2026", caption: "" }
+    { photo: "img/photos/photo-1.jpeg", year: "", caption: "" },
+    { photo: "img/photos/photo-2.jpeg", year: "", caption: "" },
+    { photo: "img/photos/photo-3.jpeg", year: "", caption: "" },
+    { photo: "img/photos/photo-4.jpeg", year: "", caption: "" },
+    { photo: "img/photos/photo-5.jpeg", year: "", caption: "" },
+    { photo: "img/photos/photo-6.jpeg", year: "2026", caption: "" }
   ],
 
   /* --- Guests with short links:  https://<site>/?g=aigul ---
